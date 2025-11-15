@@ -17,12 +17,17 @@
         if (prankStarted) return;
         prankStarted = true;
 
+        // Flash + shake
         document.body.classList.add("flash", "shake");
 
+        // Spawn bouncing text every 500 ms
         setInterval(spawnIdiotText, 500);
+
+        // Show fake popup every 6 seconds
         setInterval(showFakePopup, 6000);
 
-        // Auto redirect (remove if you don't want this)
+        // OPTIONAL: redirect after 20 seconds
+        // Remove this block if you don't want a redirect.
         setTimeout(() => {
             window.location.href = "https://www.google.com/search?q=you+are+an+idiot";
         }, 20000);
@@ -36,14 +41,19 @@
         const w = window.innerWidth;
         const h = window.innerHeight;
 
-        div.style.left = (Math.random() * (w - 200)) + "px";
-        div.style.top = (Math.random() * (h - 100)) + "px";
-        div.style.color = `hsl(${Math.random()*360}, 100%, 50%)`;
+        const x = Math.random() * (w - 200);
+        const y = Math.random() * (h - 100);
+
+        div.style.left = x + "px";
+        div.style.top = y + "px";
+        div.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
         div.style.animationDuration = (3 + Math.random() * 3) + "s";
 
         document.body.appendChild(div);
 
-        setTimeout(() => { div.remove(); }, 8000);
+        setTimeout(() => {
+            div.remove();
+        }, 8000);
     }
 
     function showFakePopup() {
@@ -55,22 +65,36 @@
 
         popup.innerHTML = `
             <h2>System Warning</h2>
-            <p>Multiple idiot activities detected.</p>
-            <button onclick="this.parentElement.parentElement.remove()">OK</button>
+            <p>Multiple idiot activities detected on this device.</p>
+            <button>OK</button>
         `;
+
+        const button = popup.querySelector("button");
+        button.addEventListener("click", () => {
+            overlay.remove();
+        });
 
         overlay.appendChild(popup);
         document.body.appendChild(overlay);
     }
 
+    // Try to autoplay audio and start prank
     audio.play().then(() => {
         startPrank();
     }).catch(() => {
-        console.log("Autoplay blocked — waiting for click");
-        document.addEventListener("click", () => {
-            audio.play();
-            startPrank();
-        }, { once: true });
+        console.log("Autoplay blocked — waiting for user interaction");
+
+        const clickHandler = () => {
+            audio.play().then(() => {
+                startPrank();
+            }).catch(err => {
+                console.error("Audio still blocked:", err);
+            });
+
+            document.removeEventListener("click", clickHandler);
+        };
+
+        document.addEventListener("click", clickHandler);
     });
 </script>
 {% endblock %}

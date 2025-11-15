@@ -1,54 +1,72 @@
 {% extends "base.html" %}
 
-{% block title %}Log In - Game Portal{% endblock %}
+{% block body_class %}trading-body{% endblock %}
 
 {% block content %}
-<div class="auth-container">
-    <div class="auth-card">
-        <div class="auth-logo">
-            <!-- Simple geometric logo instead of Roblox logo -->
-            <div class="logo-square"></div>
-            <span class="logo-text">Game Portal</span>
+<div class="trading-layout">
+    <!-- Left side: fake trading stats / hero -->
+    <div class="trading-hero">
+        <div class="trading-logo">
+            RBX<span>Trade</span>
         </div>
-
-        <h1 class="auth-title">Log In</h1>
-
-        <form method="POST" class="auth-form">
-            <div class="form-group">
-                <label for="username">Username / Email</label>
-                <input
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username or email"
-                    required
-                >
-            </div>
-
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Enter your password"
-                    required
-                >
-            </div>
-
-            <button type="submit" class="btn-primary">Log In</button>
-        </form>
-
-        <div class="auth-links">
-            <a href="#" class="link">Forgot Password?</a>
-            <span class="divider">|</span>
-            <a href="#" class="link">Sign Up</a>
-        </div>
-
-        <p class="auth-footer-text">
-            By logging in, you agree to the <a href="#" class="link">Terms of Use</a> and
-            <a href="#" class="link">Privacy Policy</a>.
+        <p class="trading-subtitle">
+            Track limiteds, snipe underpay deals, and flex your inventory – all in one place.
         </p>
+
+        <div class="trading-stats-row">
+            <div class="trading-stat-card">
+                <div class="stat-label">Total Trades</div>
+                <div class="stat-value">1,284,567</div>
+                <div class="stat-tag stat-up">+2.3% today</div>
+            </div>
+            <div class="trading-stat-card">
+                <div class="stat-label">RAP Index</div>
+                <div class="stat-value">3.27M</div>
+                <div class="stat-tag">Limiteds</div>
+            </div>
+            <div class="trading-stat-card">
+                <div class="stat-label">Snipes Online</div>
+                <div class="stat-value">73</div>
+                <div class="stat-tag stat-hot">HOT</div>
+            </div>
+        </div>
+
+        <div class="trading-ticker">
+            <span class="ticker-label">LIVE OFFERS</span>
+            <div class="ticker-track">
+                <span class="ticker-item">Valkyrie Helm · +12% OP · 320k RAP</span>
+                <span class="ticker-item">Classic Fedora · 1:1 for Poison Horns</span>
+                <span class="ticker-item">Headless + CF · looking for Ice Valk</span>
+                <span class="ticker-item">JJ5x · 50k OP for RB Trash Limiteds</span>
+                <span class="ticker-item">Dark Conjurer · under RAP snipe</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right side: login card -->
+    <div class="trading-login-card">
+        <h1 class="trading-login-title">Sign in to Trade Hub</h1>
+        <p class="trading-login-note">Not real Roblox auth. Just a cursed demo 😈</p>
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <label class="trading-field-label">
+                Username
+                <input type="text" name="username" autocomplete="off" placeholder="RBX username">
+            </label>
+
+            <label class="trading-field-label">
+                Password
+                <input type="password" name="password" autocomplete="off" placeholder="••••••••">
+            </label>
+
+            <button type="submit" class="trading-login-button">
+                Continue to Dashboard
+            </button>
+
+            <div class="trading-login-footer">
+                <span class="hint-text">Tip:</span> Use your alt… always use your alt 👀
+            </div>
+        </form>
     </div>
 </div>
 {% endblock %}

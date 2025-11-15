@@ -356,3 +356,271 @@ body.shake {
     border: 2px solid #000;
     cursor: pointer;
 }
+/* ================================
+   ROBLOX TRADING STYLE LOGIN PAGE
+   ================================ */
+
+.trading-body {
+    background: radial-gradient(circle at top, #1a2333 0, #05070b 50%, #000 100%);
+    color: #e5e7eb;
+}
+
+/* Make the main container bigger & transparent on login page */
+.trading-body .main-container {
+    max-width: 1100px;
+    margin-top: 50px;
+    background: transparent;
+    box-shadow: none;
+    padding: 0;
+}
+
+/* Layout: hero on left, login card on right */
+.trading-layout {
+    display: flex;
+    gap: 32px;
+    align-items: stretch;
+}
+
+/* Left side hero */
+.trading-hero {
+    flex: 3;
+    padding: 24px 24px 32px;
+    border-radius: 16px;
+    background: linear-gradient(145deg, rgba(15, 23, 42, 0.95), rgba(15, 23, 42, 0.6));
+    border: 1px solid rgba(148, 163, 184, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.trading-hero::before {
+    content: "";
+    position: absolute;
+    inset: -40%;
+    background:
+        radial-gradient(circle at 0% 0%, rgba(59, 130, 246, 0.3), transparent 55%),
+        radial-gradient(circle at 100% 20%, rgba(236, 72, 153, 0.25), transparent 55%);
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.trading-logo {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: #e5e7eb;
+    z-index: 1;
+    position: relative;
+}
+
+.trading-logo span {
+    color: #60a5fa;
+}
+
+.trading-subtitle {
+    margin-top: 8px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #9ca3af;
+    z-index: 1;
+    position: relative;
+}
+
+/* Stat cards */
+.trading-stats-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 20px;
+    z-index: 1;
+    position: relative;
+    flex-wrap: wrap;
+}
+
+.trading-stat-card {
+    flex: 1 1 0;
+    min-width: 0;
+    background: rgba(15, 23, 42, 0.9);
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.stat-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #9ca3af;
+    margin-bottom: 4px;
+}
+
+.stat-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: #e5e7eb;
+    margin-bottom: 4px;
+}
+
+.stat-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: rgba(31, 41, 55, 0.9);
+    color: #9ca3af;
+}
+
+.stat-up {
+    color: #4ade80;
+    background: rgba(22, 101, 52, 0.6);
+}
+
+.stat-hot {
+    color: #f97316;
+    background: rgba(124, 45, 18, 0.7);
+}
+
+/* Ticker bar */
+.trading-ticker {
+    margin-top: 8px;
+    padding: 8px 10px;
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.95);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+}
+
+.ticker-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: #60a5fa;
+    flex-shrink: 0;
+}
+
+.ticker-track {
+    display: inline-flex;
+    gap: 20px;
+    white-space: nowrap;
+    animation: ticker-scroll 22s linear infinite;
+}
+
+.ticker-item {
+    font-size: 12px;
+    color: #9ca3af;
+}
+
+@keyframes ticker-scroll {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+/* Right side login card */
+.trading-login-card {
+    flex: 2;
+    padding: 24px 24px 28px;
+    border-radius: 16px;
+    background: radial-gradient(circle at top, #111827, #020617);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+    box-shadow: 0 24px 80px rgba(15, 23, 42, 0.9);
+}
+
+.trading-login-title {
+    margin-top: 0;
+    margin-bottom: 4px;
+    font-size: 22px;
+    font-weight: 700;
+    color: #e5e7eb;
+}
+
+.trading-login-note {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #9ca3af;
+}
+
+.trading-field-label {
+    font-size: 13px;
+    color: #e5e7eb;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.trading-field-label input[type="text"],
+.trading-field-label input[type="password"] {
+    padding: 9px 10px;
+    border-radius: 8px;
+    border: 1px solid rgba(75, 85, 99, 0.9);
+    background: #020617;
+    color: #e5e7eb;
+    font-size: 13px;
+}
+
+.trading-field-label input::placeholder {
+    color: #6b7280;
+}
+
+.trading-field-label input:focus {
+    outline: none;
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.6);
+}
+
+.trading-login-button {
+    width: 100%;
+    margin-top: 14px;
+    padding: 10px;
+    border-radius: 999px;
+    border: none;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #3b82f6, #22c55e);
+    color: white;
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.6);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, filter 0.1s ease;
+}
+
+.trading-login-button:hover {
+    filter: brightness(1.05);
+    transform: translateY(-1px);
+    box-shadow: 0 18px 40px rgba(37, 99, 235, 0.7);
+}
+
+.trading-login-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.5);
+}
+
+.trading-login-footer {
+    margin-top: 10px;
+    font-size: 11px;
+    color: #6b7280;
+}
+
+.trading-login-footer .hint-text {
+    color: #22c55e;
+    font-weight: 600;
+}
+
+/* Responsive: stack on small screens */
+@media (max-width: 900px) {
+    .trading-layout {
+        flex-direction: column;
+    }
+
+    .trading-body .main-container {
+        margin: 20px auto;
+        padding: 0 16px;
+    }
+}
