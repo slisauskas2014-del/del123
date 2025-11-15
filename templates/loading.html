@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block body_class %}trading-body{% endblock %}
+
+{% block content %}
+<div class="loading-wrapper">
+    <div class="loading-card">
+        <div class="loading-header">
+            <span class="loading-pill">SECURITY ALERT</span>
+            <h1>be fast!! elephant is hacking your account!!! 🐘🐘🐘🐘</h1>
+            <p class="loading-subtitle">
+                Initializing anti-elephant firewall... please stand by.
+            </p>
+        </div>
+
+        <div class="loading-main">
+            <div class="loading-status-row">
+                <span class="status-label">Time left</span>
+                <span class="status-value"><span id="countdown">20</span> s</span>
+            </div>
+
+            <div class="loading-bar-outer">
+                <div class="loading-bar-inner" id="loading-bar"></div>
+            </div>
+
+            <div class="loading-log">
+                <p class="log-line" id="log-line-1">&gt; Connecting to RBX elephant defense servers...</p>
+                <p class="log-line" id="log-line-2">&gt; Scanning for trunk-based exploits...</p>
+                <p class="log-line" id="log-line-3">&gt; Encrypting peanuts...</p>
+                <p class="log-line" id="log-line-4">&gt; Deploying counter-meme payload...</p>
+            </div>
+
+            <p class="loading-footer">
+                Do NOT close this page. Elephant is sniffing your trades... 🐘
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // 20 second countdown + fake progress bar + log animation + redirect to dashboard
+    let seconds = 20;
+    const countdownEl = document.getElementById("countdown");
+    const bar = document.getElementById("loading-bar");
+    const logs = [
+        "› Connecting to RBX elephant defense servers...",
+        "› Scanning for trunk-based exploits...",
+        "› Encrypting peanuts...",
+        "› Deploying counter-meme payload...",
+        "› Blocking unauthorized elephant trades...",
+        "› Spoofing elephant IP address...",
+        "› Overclocking bass-boost firewall...",
+        "› Finalizing dashboard hijack..."
+    ];
+
+    const logEls = [
+        document.getElementById("log-line-1"),
+        document.getElementById("log-line-2"),
+        document.getElementById("log-line-3"),
+        document.getElementById("log-line-4")
+    ];
+
+    let logIndex = 0;
+
+    function updateLogs() {
+        const msg = logs[logIndex % logs.length];
+        logEls[logIndex % logEls.length].textContent = "> " + msg;
+        logIndex++;
+    }
+
+    // Start with initial log update
+    updateLogs();
+
+    const interval = setInterval(() => {
+        seconds--;
+        if (seconds < 0) seconds = 0;
+        countdownEl.textContent = seconds.toString();
+
+        // update progress bar (0–100%)
+        const progress = ((20 - seconds) / 20) * 100;
+        bar.style.width = progress + "%";
+
+        // occasionally change log line
+        if (seconds % 2 === 0) {
+            updateLogs();
+        }
+
+        if (seconds <= 0) {
+            clearInterval(interval);
+            // After 20s -> go to elephant dashboard
+            window.location.href = "{{ url_for('dashboard') }}";
+        }
+    }, 1000);
+</script>
+{% endblock %}

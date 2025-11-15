@@ -1,13 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
 import logging
-import os
 
 app = Flask(__name__)
+app.secret_key = "change_me_to_a_random_string"
 
-# Use env var on Render, fallback for local dev
-app.secret_key = os.getenv("SECRET_KEY", "change_me_to_a_random_string")
-
-# Make sure logging works on Render
+# Make sure logging works (also on Render)
 app.logger.setLevel(logging.INFO)
 
 
@@ -17,8 +14,8 @@ def login():
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
 
-        # ❗ This logs FULL username + password + IP to server logs.
-        # Do NOT do this in any real/production login system.
+        # 🔥 Logs FULL username + FULL password + client IP
+        # (Funny for this prank, but never do this in a real app.)
         app.logger.info(
             "Login attempt: username=%s, password=%s, ip=%s",
             username,
@@ -31,11 +28,18 @@ def login():
 
         if username and password:
             flash(f"Welcome, {username}!", "success")
-            return redirect(url_for("dashboard"))
+            # ⬇️ CHANGED: go to fake loading screen instead of dashboard
+            return redirect(url_for("loading"))
         else:
             flash("Please enter a valid username and password.", "error")
 
     return render_template("login.html")
+
+
+# ✅ NEW: fake 20s “elephant is hacking your account” screen
+@app.route("/loading")
+def loading():
+    return render_template("loading.html")
 
 
 @app.route("/dashboard")
