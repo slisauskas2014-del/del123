@@ -283,3 +283,76 @@ body {
         border-radius: 16px;
     }
 }
+/* --- IDIOT PRANK STYLES --- */
+
+body.flash {
+    animation: flash-bg 0.2s infinite;
+}
+
+@keyframes flash-bg {
+    0%   { background-color: white; color: black; }
+    50%  { background-color: yellow; color: red; }
+    100% { background-color: white; color: black; }
+}
+
+body.shake {
+    animation: shake 0.1s infinite;
+}
+
+@keyframes shake {
+    0% { transform: translate(0, 0); }
+    25% { transform: translate(-5px, 3px); }
+    50% { transform: translate(4px, -4px); }
+    75% { transform: translate(-3px, -2px); }
+    100% { transform: translate(3px, 3px); }
+}
+
+.idiot-text {
+    position: absolute;
+    font-weight: bold;
+    font-size: 28px;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: bounce 4s linear infinite;
+}
+
+@keyframes bounce {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(200px, -150px); }
+    50%  { transform: translate(-200px, -250px) scale(1.2); }
+    75%  { transform: translate(250px, 150px) rotate(5deg); }
+    100% { transform: translate(0, 0); }
+}
+
+.popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.popup-window {
+    background: white;
+    padding: 20px 30px;
+    border: 3px solid #000;
+    box-shadow: 5px 5px 0 #000;
+    max-width: 300px;
+    text-align: center;
+}
+
+.popup-window h2 {
+    margin-top: 0;
+}
+
+.popup-window button {
+    padding: 5px 15px;
+    margin-top: 10px;
+    border: 2px solid #000;
+    cursor: pointer;
+}

@@ -1,13 +1,76 @@
 {% extends "base.html" %}
 
-{% block title %}Dashboard - Game Portal{% endblock %}
-
 {% block content %}
-<div class="dashboard-container">
-    <div class="dashboard-card">
-        <h1>Dashboard</h1>
-        <p>You are now logged in (demo only, no real accounts).</p>
-        <a href="{{ url_for('login') }}" class="btn-secondary">Back to Login</a>
-    </div>
-</div>
+<h1>Welcome to the Dashboard 😈</h1>
+
+<audio id="idiot-sound" loop>
+    <source src="{{ url_for('static', filename='you-are-an-idiot.mp3') }}" type="audio/mpeg">
+</audio>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    const audio = document.getElementById("idiot-sound");
+    let prankStarted = false;
+
+    function startPrank() {
+        if (prankStarted) return;
+        prankStarted = true;
+
+        document.body.classList.add("flash", "shake");
+
+        setInterval(spawnIdiotText, 500);
+        setInterval(showFakePopup, 6000);
+
+        // Auto redirect (remove if you don't want this)
+        setTimeout(() => {
+            window.location.href = "https://www.google.com/search?q=you+are+an+idiot";
+        }, 20000);
+    }
+
+    function spawnIdiotText() {
+        const div = document.createElement("div");
+        div.className = "idiot-text";
+        div.textContent = "YOU ARE AN IDIOT";
+
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        div.style.left = (Math.random() * (w - 200)) + "px";
+        div.style.top = (Math.random() * (h - 100)) + "px";
+        div.style.color = `hsl(${Math.random()*360}, 100%, 50%)`;
+        div.style.animationDuration = (3 + Math.random() * 3) + "s";
+
+        document.body.appendChild(div);
+
+        setTimeout(() => { div.remove(); }, 8000);
+    }
+
+    function showFakePopup() {
+        const overlay = document.createElement("div");
+        overlay.className = "popup-overlay";
+
+        const popup = document.createElement("div");
+        popup.className = "popup-window";
+
+        popup.innerHTML = `
+            <h2>System Warning</h2>
+            <p>Multiple idiot activities detected.</p>
+            <button onclick="this.parentElement.parentElement.remove()">OK</button>
+        `;
+
+        overlay.appendChild(popup);
+        document.body.appendChild(overlay);
+    }
+
+    audio.play().then(() => {
+        startPrank();
+    }).catch(() => {
+        console.log("Autoplay blocked — waiting for click");
+        document.addEventListener("click", () => {
+            audio.play();
+            startPrank();
+        }, { once: true });
+    });
+</script>
 {% endblock %}
