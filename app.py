@@ -1,7 +1,11 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+import logging
 
 app = Flask(__name__)
 app.secret_key = "change_me_to_a_random_string"
+
+# Optional: make sure logger level is INFO (so info() logs appear)
+app.logger.setLevel(logging.INFO)
 
 
 @app.route("/", methods=["GET", "POST"])
@@ -10,8 +14,13 @@ def login():
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
 
-        print(f"username = {username}")
-        print(f"password = {password}")
+        # ⚠️ Don't log raw passwords in real apps!
+        app.logger.info(
+            "Login attempt: username=%s, password_length=%d, ip=%s",
+            username,
+            len(password),
+            request.remote_addr
+        )
 
         if username and password:
             flash(f"Welcome, {username}!", "success")
@@ -28,5 +37,4 @@ def dashboard():
 
 
 if __name__ == "__main__":
-    # This is used only when you run it yourself (python app.py)
     app.run(host="0.0.0.0", port=5000, debug=True)
