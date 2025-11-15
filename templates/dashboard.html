@@ -1,8 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>You are a dumbass. Get fuckkkkkkkkkkkked</h1>
+<h1 class="dashboard-title">Welcome to the Dashboard 😈</h1>
 
+<!-- Elephant background video -->
+<video id="bg-elephant" autoplay muted loop playsinline>
+    <source src="{{ url_for('static', filename='Elephant_Green_Screen_Effect_Meme_But_Its_Actually_Green_Screen_-_Button_Mash_1080p_h264.mp4') }}" type="video/mp4">
+</video>
+
+<!-- Idiot sound (bass boosted by JS) -->
 <audio id="idiot-sound" loop>
     <source src="{{ url_for('static', filename='you-are-an-idiot.mp3') }}" type="audio/mpeg">
 </audio>
@@ -10,91 +16,125 @@
 
 {% block scripts %}
 <script>
-    const audio = document.getElementById("idiot-sound");
-    let prankStarted = false;
+/* ----------------------------------------------------------
+   BACKGROUND VIDEO AUTOPLAY (must start muted)
+---------------------------------------------------------- */
+const bgVideo = document.getElementById("bg-elephant");
+bgVideo.muted = true;     
+bgVideo.play().catch(()=>{});
 
-    function startPrank() {
-        if (prankStarted) return;
-        prankStarted = true;
+/* ----------------------------------------------------------
+   BASS BOOST AUDIO EFFECT
+---------------------------------------------------------- */
+let prankStarted = false;
+const idiotSound = document.getElementById("idiot-sound");
 
-        // Flash + shake
-        document.body.classList.add("flash", "shake");
+function startBassBoost() {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const src = ctx.createMediaElementSource(idiotSound);
 
-        // Spawn bouncing text every 500 ms
-        setInterval(spawnIdiotText, 500);
+    const bass = ctx.createBiquadFilter();
+    bass.type = "lowshelf";
+    bass.frequency.value = 120;     // boost <120 Hz
+    bass.gain.value = 18;           // big bass
 
-        // Show fake popup every 6 seconds
-        setInterval(showFakePopup, 6000);
+    src.connect(bass).connect(ctx.destination);
+}
 
-        // OPTIONAL: redirect after 20 seconds
-        // Remove this block if you don't want a redirect.
-        setTimeout(() => {
-            window.location.href = "https://www.google.com/search?q=you+are+an+idiot";
-        }, 20000);
-    }
+/* ----------------------------------------------------------
+   START THE FULL CHAOS
+---------------------------------------------------------- */
+function startPrank() {
+    if (prankStarted) return;
+    prankStarted = true;
 
-    function spawnIdiotText() {
-        const div = document.createElement("div");
-        div.className = "idiot-text";
-        div.textContent = "YOU ARE AN IDIOT";
+    startBassBoost();
+    idiotSound.play().catch(()=>{});
 
-        const w = window.innerWidth;
-        const h = window.innerHeight;
+    // flashing + shaking
+    document.body.classList.add("flash", "shake");
 
-        const x = Math.random() * (w - 200);
-        const y = Math.random() * (h - 100);
+    // bouncing text
+    setInterval(spawnText, 500);
 
-        div.style.left = x + "px";
-        div.style.top = y + "px";
-        div.style.color = `hsl(${Math.random() * 360}, 100%, 50%)`;
-        div.style.animationDuration = (3 + Math.random() * 3) + "s";
+    // popups
+    setInterval(showPopup, 6000);
 
-        document.body.appendChild(div);
+    // redirect in 20 seconds (edit if you want)
+    setTimeout(() => {
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    }, 20000);
+}
 
-        setTimeout(() => {
-            div.remove();
-        }, 8000);
-    }
+/* ----------------------------------------------------------
+   SPAWN “YOU ARE AN IDIOT” TEXT
+---------------------------------------------------------- */
+function spawnText() {
+    const div = document.createElement("div");
+    div.className = "idiot-text";
+    div.textContent = "YOU ARE AN IDIOT";
 
-    function showFakePopup() {
-        const overlay = document.createElement("div");
-        overlay.className = "popup-overlay";
+    const w = window.innerWidth;
+    const h = window.innerHeight;
 
-        const popup = document.createElement("div");
-        popup.className = "popup-window";
+    div.style.left = Math.random() * (w - 200) + "px";
+    div.style.top  = Math.random() * (h - 100) + "px";
+    div.style.color = `hsl(${Math.random()*360},100%,50%)`;
+    div.style.animationDuration = 2 + Math.random()*4 + "s";
 
-        popup.innerHTML = `
-            <h2>System Warning</h2>
-            <p>Multiple idiot activities detected on this device.</p>
-            <button>OK</button>
-        `;
+    document.body.appendChild(div);
 
-        const button = popup.querySelector("button");
-        button.addEventListener("click", () => {
-            overlay.remove();
-        });
+    setTimeout(() => div.remove(), 6000);
+}
 
-        overlay.appendChild(popup);
-        document.body.appendChild(overlay);
-    }
+/* ----------------------------------------------------------
+   POPUP WINDOW
+---------------------------------------------------------- */
+function showPopup() {
+    const overlay = document.createElement("div");
+    overlay.className = "popup-overlay";
 
-    // Try to autoplay audio and start prank
-    audio.play().then(() => {
-        startPrank();
-    }).catch(() => {
-        console.log("Autoplay blocked — waiting for user interaction");
+    overlay.innerHTML = `
+        <div class="popup-window">
+            <h2>Warning</h2>
+            <p>Elephant approaching your location.</p>
+            <button onclick="this.closest('.popup-overlay').remove()">OK</button>
+        </div>
+    `;
 
-        const clickHandler = () => {
-            audio.play().then(() => {
-                startPrank();
-            }).catch(err => {
-                console.error("Audio still blocked:", err);
-            });
+    document.body.appendChild(overlay);
+}
 
-            document.removeEventListener("click", clickHandler);
-        };
-
-        document.addEventListener("click", clickHandler);
+/* ----------------------------------------------------------
+   AUTOPLAY FAILSAFE (start prank on first click)
+---------------------------------------------------------- */
+idiotSound.play()
+    .then(startPrank)
+    .catch(() => {
+        document.addEventListener("click", () => {
+            idiotSound.play();
+            startPrank();
+        }, { once: true });
     });
 </script>
+
+<style>
+/* Fullscreen elephant video behind everything */
+#bg-elephant {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: -10;
+    filter: brightness(0.75) contrast(1.2);
+}
+
+/* Title visible above chaotic background */
+.dashboard-title {
+    position: relative;
+    z-index: 10;
+    text-shadow: 0 0 12px black;
+}
+</style>
 {% endblock %}
